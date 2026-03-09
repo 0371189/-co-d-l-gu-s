@@ -250,6 +250,15 @@ body {
     font-size: 14px;
     opacity: 0.95;
 }
+.project-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+.project-card {
+    /* tes styles existants */
+}
+
 
 /* ========== FOOTER ========== */
 .footer {
