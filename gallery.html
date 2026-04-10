@@ -3,73 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
         }
-        .thumbnail {
-            margin: 5px;
+        header {
+            background-color: #2ecc71;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            padding: 20px;
+        }
+        .gallery img {
+            width: 100%;
+            border-radius: 5px;
             cursor: pointer;
+            transition: transform 0.2s;
         }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        footer {
+            background-color: #2ecc71;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        /* Lightbox styles */
         .lightbox {
             display: none;
             position: fixed;
-            top: 0;
+            z-index: 1000;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
         }
         .lightbox img {
+            display: block;
+            margin: auto;
             max-width: 90%;
-            max-height: 90%;
+            max-height: 80%;
         }
+        .lightbox .close, .lightbox .prev, .lightbox .next {
+            position: absolute;
+            top: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .lightbox .close { right: 20px; }
+        .lightbox .prev { left: 20px; }
+        .lightbox .next { right: 60px; }
     </style>
 </head>
 <body>
-    <div id="gallery">
-        <!-- Thumbnails will be added here -->
-    </div>
 
-    <div id="lightbox" class="lightbox">
-        <img id="lightbox-img" src="" alt="Lightbox Image">
-    </div>
+<header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="gallery.html">Gallery</a>
+    </nav>
+</header>
 
-    <script>
-        const images = [
-            'images/image1.jpg',
-            'images/image2.jpg',
-            'images/image3.jpg',
-                // Add more images as needed
-        ];
+<div class="gallery">
+    <!-- Thumbnails -->
+    <img src="images/IMG_20260410_102417 - Copie.jpg" onclick="openLightbox();currentSlide(1)" alt="Image 1">
+    <img src="images/IMG_20260410_102417.jpg" onclick="openLightbox();currentSlide(2)" alt="Image 2">
+    <img src="images/IMG_20260410_111132 - Copie.jpg" onclick="openLightbox();currentSlide(3)" alt="Image 3">
+    <img src="images/IMG_20260410_111132.jpg" onclick="openLightbox();currentSlide(4)" alt="Image 4">
+    <img src="images/IMG_20260410_111234 - Copie.jpg" onclick="openLightbox();currentSlide(5)" alt="Image 5">
+    <img src="images/IMG_20260410_111234.jpg" onclick="openLightbox();currentSlide(6)" alt="Image 6">
+    <img src="images/IMG_20260410_111248.jpg" onclick="openLightbox();currentSlide(7)" alt="Image 7">
+    <img src="images/IMG_20260410_111255 - Copie.jpg" onclick="openLightbox();currentSlide(8)" alt="Image 8">
+    <img src="images/IMG_20260410_111255.jpg" onclick="openLightbox();currentSlide(9)" alt="Image 9">
+    <img src="images/IMG_20260410_111532 - Copie.jpg" onclick="openLightbox();currentSlide(10)" alt="Image 10">
+    <img src="images/IMG_20260410_111532.jpg" onclick="openLightbox();currentSlide(11)" alt="Image 11">
+    <img src="images/IMG_20260410_111541.jpg" onclick="openLightbox();currentSlide(12)" alt="Image 12">
+    <img src="images/IMG_20260410_111644.jpg" onclick="openLightbox();currentSlide(13)" alt="Image 13">
+    <img src="images/IMG_20260410_111649.jpg" onclick="openLightbox();currentSlide(14)" alt="Image 14">
+    <img src="images/IMG_20260410_111709.jpg" onclick="openLightbox();currentSlide(15)" alt="Image 15">
+    <img src="images/IMG_20260410_112554.jpg" onclick="openLightbox();currentSlide(16)" alt="Image 16">
+    <img src="images/IMG_20260410_112559.jpg" onclick="openLightbox();currentSlide(17)" alt="Image 17">
+    <img src="images/IMG_20260410_123327.jpg" onclick="openLightbox();currentSlide(18)" alt="Image 18">
+    <img src="images/IMG_20260410_125956.jpg" onclick="openLightbox();currentSlide(19)" alt="Image 19">
+    <img src="images/IMG_20260410_130002.jpg" onclick="openLightbox();currentSlide(20)" alt="Image 20">
+    <img src="images/IMG_20260410_130008.jpg" onclick="openLightbox();currentSlide(21)" alt="Image 21">
+    <img src="images/IMG_20260410_130021.jpg" onclick="openLightbox();currentSlide(22)" alt="Image 22">
+</div>
 
-        const gallery = document.getElementById('gallery');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
+<footer>
+    <p>© 2026 Your Site Name. All Rights Reserved.</p>
+</footer>
 
-        images.forEach((src) => {
-            const img = document.createElement('img');
-            img.src = src;
-            img.classList.add('thumbnail');
-            img.style.width = '150px';
-            img.style.height = '150px';
-            img.onclick = () => {
-                lightboxImg.src = src;
-                lightbox.style.display = 'flex';
-            };
-            gallery.appendChild(img);
-        });
+<div class="lightbox" id="lightbox">
+    <span class="close" onclick="closeLightbox()">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
 
-        lightbox.onclick = () => {
-            lightbox.style.display = 'none';
-        };
-    </script>
+<script>
+    let slideIndex = 1;
+
+    function openLightbox() {
+        document.getElementById("lightbox").style.display = "block";
+    }
+
+    function closeLightbox() {
+        document.getElementById("lightbox").style.display = "none";
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+        const slides = document.getElementsByClassName("gallery")[0].getElementsByTagName("img");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        document.getElementById("lightbox-img").src = slides[slideIndex - 1].src;
+    }
+</script>
+
 </body>
 </html>
