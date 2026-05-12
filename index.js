@@ -153,3 +153,6 @@ window.addEventListener('error', (event) => {
 window.addEventListener('unhandledrejection', (event) => {
     console.error('❌ Une promesse a été rejetée :', event.reason);
 });
+window.addEventListener('resize', () => {
+    console.log('📐 La fenêtre a été redimensionnée :', window.innerWidth, 'x', window.innerHeight);
+}
