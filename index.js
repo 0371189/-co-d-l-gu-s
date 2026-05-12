@@ -155,4 +155,4 @@ window.addEventListener('unhandledrejection', (event) => {
 });
 window.addEventListener('resize', () => {
     console.log('📐 La fenêtre a été redimensionnée :', window.innerWidth, 'x', window.innerHeight);
-}
+});
