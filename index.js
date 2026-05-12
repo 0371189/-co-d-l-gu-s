@@ -143,3 +143,13 @@ window.addEventListener('load', () => {
     console.log('🌱 Bienvenue sur la page des Éco-Délégués !');
     console.log('✨ Merci de visiter notre site');
 });
+
+window.addEventListener('beforeunload', () => {
+    console.log('👋 Merci de votre visite, à bientôt !');
+});
+window.addEventListener('error', (event) => {
+    console.error('❌ Une erreur est survenue :', event.message);
+});
+window.addEventListener('unhandledrejection', (event) => {
+    console.error('❌ Une promesse a été rejetée :', event.reason);
+});
