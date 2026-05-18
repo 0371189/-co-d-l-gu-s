@@ -156,3 +156,21 @@ window.addEventListener('unhandledrejection', (event) => {
 window.addEventListener('resize', () => {
     console.log('📐 La fenêtre a été redimensionnée :', window.innerWidth, 'x', window.innerHeight);
 });
+window.addEventListener('scroll', () => {
+    console.log('📜 L\'utilisateur a fait défiler la page :', window.scrollY);
+});
+window.addEventListener('click', (event) => {
+    console.log('🖱️ Clic détecté sur :', event.target);
+});
+window.addEventListener('keydown', (event) => {
+    console.log('⌨️ Touche pressée :', event.key);
+});
+window.addEventListener('keyup', (event) => {
+    console.log('⌨️ Touche relâchée :', event.key);
+});
+window.addEventListener('focus', () => {
+    console.log('👀 La fenêtre a gagné le focus');
+});
+window.addEventListener('blur', () => {
+    console.log('😴 La fenêtre a perdu le focus');
+});
