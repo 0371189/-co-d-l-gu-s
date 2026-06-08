@@ -419,6 +419,35 @@ body::before {
     text-decoration: none;
     color: inherit;
     display: block;
+    cursor: pointer;
+}
+
+.project-card {
+    cursor: pointer;
+}
+
+.project-cta {
+    display: inline-flex;
+    margin-top: 18px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.project-card:hover .project-cta {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.26);
+}
+
+.section-hint {
+    color: #b3e4c0;
+    margin-top: 10px;
+    font-size: 0.98rem;
+    font-weight: 600;
 }
 
 .impact-grid {
