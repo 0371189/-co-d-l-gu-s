@@ -120,16 +120,30 @@
             gap: 18px;
         }
         .card {
+            position: relative;
             background: rgba(23, 43, 34, 0.95);
             border: 1px solid var(--border);
             border-radius: 22px;
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: transform 0.25s ease, border-color 0.25s ease;
+            cursor: pointer;
+        }
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.24) 100%);
+            opacity: 0.6;
+            transition: opacity 0.25s ease;
+            pointer-events: none;
         }
         .card:hover {
             transform: translateY(-6px);
             border-color: rgba(46, 204, 113, 0.35);
+        }
+        .card:hover::after {
+            opacity: 0.28;
         }
         .card img {
             width: 100%;
@@ -140,6 +154,32 @@
         }
         .card:hover img {
             transform: scale(1.03);
+        }
+        .card-overlay {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: rgba(46, 204, 113, 0.95);
+            color: #081908;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            opacity: 0;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            pointer-events: none;
+        }
+        .card:hover .card-overlay {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-4px);
+        }
+        .hero-note {
+            margin-top: 18px;
+            color: rgba(255,255,255,0.9);
+            font-size: 15px;
+            font-weight: 600;
         }
         .card-meta {
             padding: 18px 18px 16px;
@@ -259,31 +299,32 @@
         <section class="hero">
             <h2>Nos actions en images</h2>
             <p>Découvrez les moments forts des projets du collège à travers une galerie immersive et moderne.</p>
+            <p class="hero-note">Cliquez sur une image pour l'agrandir et découvrir les détails.</p>
         </section>
 
         <section class="gallery-grid">
-            <article class="card"><img src="images/IMG_20260410_102417 - Copie.jpg" alt="Image 1" data-index="1"></article>
-            <article class="card"><img src="images/IMG_20260410_102417.jpg" alt="Image 2" data-index="2"></article>
-            <article class="card"><img src="images/IMG_20260410_111132 - Copie.jpg" alt="Image 3" data-index="3"></article>
-            <article class="card"><img src="images/IMG_20260410_111132.jpg" alt="Image 4" data-index="4"></article>
-            <article class="card"><img src="images/IMG_20260410_111234 - Copie.jpg" alt="Image 5" data-index="5"></article>
-            <article class="card"><img src="images/IMG_20260410_111234.jpg" alt="Image 6" data-index="6"></article>
-            <article class="card"><img src="images/IMG_20260410_111248.jpg" alt="Image 7" data-index="7"></article>
-            <article class="card"><img src="images/IMG_20260410_111255 - Copie.jpg" alt="Image 8" data-index="8"></article>
-            <article class="card"><img src="images/IMG_20260410_111255.jpg" alt="Image 9" data-index="9"></article>
-            <article class="card"><img src="images/IMG_20260410_111532 - Copie.jpg" alt="Image 10" data-index="10"></article>
-            <article class="card"><img src="images/IMG_20260410_111532.jpg" alt="Image 11" data-index="11"></article>
-            <article class="card"><img src="images/IMG_20260410_111541.jpg" alt="Image 12" data-index="12"></article>
-            <article class="card"><img src="images/IMG_20260410_111644.jpg" alt="Image 13" data-index="13"></article>
-            <article class="card"><img src="images/IMG_20260410_111649.jpg" alt="Image 14" data-index="14"></article>
-            <article class="card"><img src="images/IMG_20260410_111709.jpg" alt="Image 15" data-index="15"></article>
-            <article class="card"><img src="images/IMG_20260410_112554.jpg" alt="Image 16" data-index="16"></article>
-            <article class="card"><img src="images/IMG_20260410_112559.jpg" alt="Image 17" data-index="17"></article>
-            <article class="card"><img src="images/IMG_20260410_123327.jpg" alt="Image 18" data-index="18"></article>
-            <article class="card"><img src="images/IMG_20260410_125956.jpg" alt="Image 19" data-index="19"></article>
-            <article class="card"><img src="images/IMG_20260410_130002.jpg" alt="Image 20" data-index="20"></article>
-            <article class="card"><img src="images/IMG_20260410_130008.jpg" alt="Image 21" data-index="21"></article>
-            <article class="card"><img src="images/IMG_20260410_130021.jpg" alt="Image 22" data-index="22"></article>
+            <article class="card"><img src="images/IMG_20260410_102417 - Copie.jpg" alt="Image 1" data-index="1"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_102417.jpg" alt="Image 2" data-index="2"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111132 - Copie.jpg" alt="Image 3" data-index="3"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111132.jpg" alt="Image 4" data-index="4"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111234 - Copie.jpg" alt="Image 5" data-index="5"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111234.jpg" alt="Image 6" data-index="6"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111248.jpg" alt="Image 7" data-index="7"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111255 - Copie.jpg" alt="Image 8" data-index="8"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111255.jpg" alt="Image 9" data-index="9"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111532 - Copie.jpg" alt="Image 10" data-index="10"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111532.jpg" alt="Image 11" data-index="11"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111541.jpg" alt="Image 12" data-index="12"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111644.jpg" alt="Image 13" data-index="13"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111649.jpg" alt="Image 14" data-index="14"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_111709.jpg" alt="Image 15" data-index="15"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_112554.jpg" alt="Image 16" data-index="16"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_112559.jpg" alt="Image 17" data-index="17"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_123327.jpg" alt="Image 18" data-index="18"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_125956.jpg" alt="Image 19" data-index="19"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_130002.jpg" alt="Image 20" data-index="20"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_130008.jpg" alt="Image 21" data-index="21"><div class="card-overlay">Voir l'image</div></article>
+            <article class="card"><img src="images/IMG_20260410_130021.jpg" alt="Image 22" data-index="22"><div class="card-overlay">Voir l'image</div></article>
         </section>
     </main>
 
