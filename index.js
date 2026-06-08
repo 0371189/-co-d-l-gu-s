@@ -174,3 +174,6 @@ window.addEventListener('focus', () => {
 window.addEventListener('blur', () => {
     console.log('😴 La fenêtre a perdu le focus');
 });
+window.addEventListener('orientationchange', () => {
+    console.log('📱 L\'orientation de l\'appareil a changé :', window.orientation);
+});
