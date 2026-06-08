@@ -1,18 +1,42 @@
-// Smooth scroll pour les liens de navigation
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+const smoothLinks = document.querySelectorAll('a[href^="#"]');
+const themeToggleBtn = document.getElementById('themeToggle');
+
+function setTheme(theme) {
+    document.body.classList.toggle('dark-mode', theme === 'dark');
+    document.documentElement.classList.toggle('dark-mode', theme === 'dark');
+    localStorage.setItem('ecoTheme', theme);
+    if (themeToggleBtn) {
+        themeToggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+}
+
+function initTheme() {
+    const savedTheme = localStorage.getItem('ecoTheme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+}
+
+function smoothScroll(target) {
+    const element = document.querySelector(target);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+smoothLinks.forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+        smoothScroll(this.getAttribute('href'));
     });
 });
 
-// Animation des cartes au scroll
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'light' : 'dark');
+    });
+}
+
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -23,6 +47,8 @@ const observer = new IntersectionObserver(function(entries) {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
+            entry.target.style.transition = 'all 0.6s ease';
+            observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
@@ -34,13 +60,6 @@ document.querySelectorAll('.info-card').forEach(card => {
     observer.observe(card);
 });
 
-// Effet hover sur les cartes
-document.querySelectorAll('.info-card').forEach(card => {
-    card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-5px)';
-    });
-
-    card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0)';
-    });
+window.addEventListener('load', () => {
+    initTheme();
 });

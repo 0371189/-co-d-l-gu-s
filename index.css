@@ -3,12 +3,27 @@
     --primary-color: #2ecc71;
     --secondary-color: #27ae60;
     --accent-color: #8e44ad;
-    --dark-color: #173230;
-    --light-color: #f6faf7;
     --text-color: #233836;
+    --text-light: #ffffff;
+    --bg-color: #f6faf7;
     --surface-color: #ffffff;
+    --surface-muted: #edf6ef;
+    --border-color: rgba(35, 56, 55, 0.12);
     --shadow: 0 20px 50px rgba(35, 56, 55, 0.12);
     --transition: all 0.35s ease;
+}
+
+.dark-mode {
+    --primary-color: #6dce97;
+    --secondary-color: #3f9c73;
+    --accent-color: #c38ef8;
+    --text-color: #e9f7ef;
+    --text-light: #ffffff;
+    --bg-color: #11221d;
+    --surface-color: #162d28;
+    --surface-muted: #1f3f34;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --shadow: 0 20px 60px rgba(0, 0, 0, 0.33);
 }
 
 /* ========== RESET ET BASE ========== */
@@ -26,18 +41,26 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text-color);
     line-height: 1.6;
-    background: radial-gradient(circle at top left, rgba(46, 204, 113, 0.15), transparent 22%),
+    background: radial-gradient(circle at top left, rgba(46, 204, 113, 0.16), transparent 24%),
                 radial-gradient(circle at bottom right, rgba(52, 152, 219, 0.12), transparent 18%),
-                var(--light-color);
+                var(--bg-color);
     min-height: 100vh;
+    transition: background 0.35s ease, color 0.35s ease;
+}
+
+.dark-mode body {
+    background: radial-gradient(circle at top left, rgba(109, 206, 151, 0.14), transparent 24%),
+                radial-gradient(circle at bottom right, rgba(195, 142, 248, 0.1), transparent 18%),
+                var(--bg-color);
 }
 
 body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 55%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 55%);
     pointer-events: none;
+    opacity: 0.9;
 }
 
 .container {
@@ -49,19 +72,25 @@ body::before {
 /* ========== HEADER ========== */
 .header {
     background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
     backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(35, 56, 55, 0.08);
-    color: var(--dark-color);
     padding: 20px 0;
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: background 0.35s ease, color 0.35s ease;
+}
+
+.dark-mode .header {
+    background: rgba(17, 34, 29, 0.94);
 }
 
 .header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
 }
 
 .logo h1 {
@@ -74,14 +103,19 @@ body::before {
     color: #4d6c5f;
 }
 
+.dark-mode .tagline {
+    color: #b9e4cb;
+}
+
 .navbar ul {
     display: flex;
     list-style: none;
-    gap: 28px;
+    gap: 24px;
+    flex-wrap: wrap;
 }
 
 .navbar a {
-    color: var(--dark-color);
+    color: var(--text-color);
     text-decoration: none;
     font-weight: 600;
     transition: var(--transition);
@@ -96,7 +130,7 @@ body::before {
 .navbar a::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -6px;
     left: 0;
     width: 0;
     height: 3px;
@@ -109,19 +143,43 @@ body::before {
     width: 100%;
 }
 
+.theme-toggle {
+    background: var(--surface-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dark-mode .theme-toggle {
+    background: var(--surface-muted);
+    color: var(--text-light);
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+.theme-toggle:hover {
+    transform: translateY(-1px);
+}
+
 /* ========== MAIN CONTENT ========== */
 .main {
     padding: 80px 0 40px;
 }
 
-/* === HERO SECTION === */
 .hero {
     background: linear-gradient(135deg, rgba(46, 204, 113, 0.95), rgba(39, 174, 96, 0.92));
     color: white;
     text-align: center;
     padding: 100px 20px 80px;
     border-radius: 32px;
-    margin-bottom: 60px;
+    margin-bottom: 55px;
     box-shadow: 0 30px 80px rgba(35, 56, 55, 0.16);
     position: relative;
     overflow: hidden;
@@ -152,8 +210,9 @@ body::before {
 
 .hero-content h2 {
     font-size: 52px;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     line-height: 1.05;
+    animation: fadeInUp 0.8s ease both;
 }
 
 .hero-content p {
@@ -163,6 +222,7 @@ body::before {
     margin-left: auto;
     margin-right: auto;
     opacity: 0.96;
+    animation: fadeInUp 0.8s ease 0.15s both;
 }
 
 .hero-badges {
@@ -170,6 +230,7 @@ body::before {
     gap: 18px;
     flex-wrap: wrap;
     justify-content: center;
+    animation: fadeInUp 0.8s ease 0.25s both;
 }
 
 .badge {
@@ -206,6 +267,7 @@ body::before {
     cursor: pointer;
     transition: var(--transition);
     box-shadow: 0 16px 46px rgba(35, 56, 55, 0.18);
+    animation: fadeInUp 0.8s ease 0.35s both;
 }
 
 .btn:hover {
@@ -220,18 +282,21 @@ body::before {
     line-height: 1.75;
 }
 
+.dark-mode .section-subtitle {
+    color: #b8e7c8;
+}
+
 .team,
 .projects,
 .impact {
     margin-bottom: 60px;
-    text-align: center;
 }
 
 .team h2,
 .projects h2,
 .impact h2 {
     font-size: 38px;
-    color: var(--dark-color);
+    color: var(--text-color);
     margin-bottom: 18px;
     position: relative;
 }
@@ -264,13 +329,21 @@ body::before {
 .team-card,
 .project-card,
 .impact-card {
-    background: white;
+    background: var(--surface-color);
     border-radius: 24px;
     box-shadow: var(--shadow);
     padding: 34px 28px;
     transition: var(--transition);
     position: relative;
     overflow: hidden;
+    border: 1px solid transparent;
+}
+
+.dark-mode .team-card,
+.dark-mode .project-card,
+.dark-mode .impact-card {
+    background: var(--surface-color);
+    border-color: rgba(255, 255, 255, 0.07);
 }
 
 .team-card:hover,
@@ -316,7 +389,7 @@ body::before {
 .project-card h3,
 .impact-card h3 {
     font-size: 22px;
-    color: var(--dark-color);
+    color: var(--text-color);
     margin-bottom: 14px;
 }
 
@@ -325,6 +398,12 @@ body::before {
 .impact-card p {
     color: #576d63;
     line-height: 1.75;
+}
+
+.dark-mode .team-card p,
+.dark-mode .project-card p,
+.dark-mode .impact-card p {
+    color: #c8e7d6;
 }
 
 .project-card {
@@ -375,10 +454,17 @@ body::before {
 }
 
 .footer {
-    background-color: var(--dark-color);
-    color: white;
+    background-color: var(--surface-color);
+    color: var(--text-color);
     padding: 60px 0 30px;
     margin-top: 40px;
+    border-top: 1px solid var(--border-color);
+}
+
+.dark-mode .footer {
+    background-color: #132a25;
+    color: var(--text-light);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 .footer-content {
@@ -403,12 +489,22 @@ body::before {
 .footer-bottom {
     text-align: center;
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(35, 56, 55, 0.08);
     font-size: 13px;
     opacity: 0.7;
 }
 
-/* ========== RESPONSIVE ========== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @media (max-width: 1024px) {
     .hero {
         padding: 90px 20px 70px;

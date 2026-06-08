@@ -1,6 +1,22 @@
 const smoothLinks = document.querySelectorAll('a[href^="#"]');
 const backToTopBtn = document.getElementById('backToTop');
 const sectionLinks = document.querySelectorAll('.navbar a');
+const themeToggleBtn = document.getElementById('themeToggle');
+
+function setTheme(theme) {
+    document.body.classList.toggle('dark-mode', theme === 'dark');
+    document.documentElement.classList.toggle('dark-mode', theme === 'dark');
+    localStorage.setItem('ecoTheme', theme);
+    if (themeToggleBtn) {
+        themeToggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+}
+
+function initTheme() {
+    const savedTheme = localStorage.getItem('ecoTheme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+}
 
 function smoothScroll(target) {
     const element = document.querySelector(target);
@@ -16,6 +32,13 @@ smoothLinks.forEach(anchor => {
     });
 });
 
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-mode');
+        setTheme(isDark ? 'light' : 'dark');
+    });
+}
+
 const exploreButton = document.getElementById('btnExplore');
 if (exploreButton) {
     exploreButton.addEventListener('click', () => {
@@ -30,8 +53,10 @@ function showNotification(message) {
     notification.className = 'toast-notification';
     document.body.appendChild(notification);
 
+    requestAnimationFrame(() => notification.classList.add('visible'));
+
     setTimeout(() => {
-        notification.classList.add('hide');
+        notification.classList.remove('visible');
         setTimeout(() => notification.remove(), 300);
     }, 2800);
 }
@@ -51,13 +76,9 @@ document.head.insertAdjacentHTML('beforeend', `
     font-weight: 600;
     opacity: 0;
     transform: translateY(20px);
-    transition: var(--transition);
+    transition: opacity 0.25s ease, transform 0.25s ease;
 }
-.toast-notification.hide {
-    opacity: 0;
-    transform: translateY(30px);
-}
-.toast-notification:not(.hide) {
+.toast-notification.visible {
     opacity: 1;
     transform: translateY(0);
 }
@@ -75,7 +96,7 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
 
-document.querySelectorAll('.team-card, .project-card, .impact-card').forEach(card => {
+document.querySelectorAll('.team-card, .project-card, .impact-card, .badge, .info-card').forEach(card => {
     card.style.opacity = '0';
     card.style.transform = 'translateY(24px)';
     observer.observe(card);
@@ -103,15 +124,17 @@ function updateNavbar() {
 }
 
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 420) {
-        backToTopBtn?.classList.add('show');
-    } else {
-        backToTopBtn?.classList.remove('show');
+    if (backToTopBtn) {
+        backToTopBtn.classList.toggle('show', window.scrollY > 420);
     }
     updateNavbar();
 });
 
-window.addEventListener('load', updateNavbar);
+window.addEventListener('load', () => {
+    initTheme();
+    updateNavbar();
+});
+
 window.addEventListener('orientationchange', () => {
     console.log('📱 L\'orientation de l\'appareil a changé :', window.orientation);
 });
