@@ -8,10 +8,10 @@
     <script>
         (function() {
             const savedTheme = localStorage.getItem('ecoTheme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            const theme = savedTheme || 'dark';
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark-mode');
+                document.body.classList.add('dark-mode');
             }
         })();
     </script>

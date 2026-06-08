@@ -14,8 +14,7 @@ function setTheme(theme) {
 
 function initTheme() {
     const savedTheme = localStorage.getItem('ecoTheme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+    setTheme(savedTheme || 'dark');
 }
 
 function smoothScroll(target) {
