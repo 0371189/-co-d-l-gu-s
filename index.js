@@ -1,179 +1,117 @@
-// ========== SMOOTH SCROLL & NAVIGATION ========== 
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+const smoothLinks = document.querySelectorAll('a[href^="#"]');
+const backToTopBtn = document.getElementById('backToTop');
+const sectionLinks = document.querySelectorAll('.navbar a');
+
+function smoothScroll(target) {
+    const element = document.querySelector(target);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+smoothLinks.forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+        smoothScroll(this.getAttribute('href'));
     });
 });
 
-// ========== BUTTON ACTION ========== 
-document.getElementById('btnExplore').addEventListener('click', function() {
-    document.getElementById('projets').scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+const exploreButton = document.getElementById('btnExplore');
+if (exploreButton) {
+    exploreButton.addEventListener('click', () => {
+        smoothScroll('#projets');
+        showNotification('Découvrez nos projets ! 🌍');
     });
-    showNotification('Découvrez nos projets ! 🌍');
-});
+}
 
-// ========== NOTIFICATION FUNCTION ========== 
 function showNotification(message) {
     const notification = document.createElement('div');
     notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: #2ecc71;
-        color: white;
-        padding: 15px 25px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        animation: slideInRight 0.3s ease;
-        font-weight: 500;
-    `;
-    
+    notification.className = 'toast-notification';
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease';
+        notification.classList.add('hide');
         setTimeout(() => notification.remove(), 300);
-    }, 3000);
+    }, 2800);
 }
 
-// ========== ANIMATIONS ========== 
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    
-    @keyframes slideOutRight {
-        from {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        to {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-    }
-`;
-document.head.appendChild(style);
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+.toast-notification {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: rgba(46, 204, 113, 0.95);
+    color: white;
+    padding: 16px 22px;
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+    z-index: 1100;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: var(--transition);
+}
+.toast-notification.hide {
+    opacity: 0;
+    transform: translateY(30px);
+}
+.toast-notification:not(.hide) {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+`);
 
-// ========== INTERSECTION OBSERVER (Animation au scroll) ========== 
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver(function(entries) {
+const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
+            entry.target.style.transition = 'all 0.7s ease';
+            observer.unobserve(entry.target);
         }
     });
-}, observerOptions);
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
 
-// Observer les cartes de team et projects
-document.querySelectorAll('.team-card, .project-card').forEach(card => {
+document.querySelectorAll('.team-card, .project-card, .impact-card').forEach(card => {
     card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    card.style.transition = 'all 0.6s ease';
+    card.style.transform = 'translateY(24px)';
     observer.observe(card);
 });
 
-// ========== HOVER EFFECTS SUR LES CARTES ========== 
-document.querySelectorAll('.team-card, .project-card').forEach(card => {
-    card.addEventListener('mouseenter', function() {
-        this.style.transform = this.classList.contains('team-card') 
-            ? 'translateY(-10px)' 
-            : 'scale(1.05) rotate(-2deg)';
+if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-    
-    card.addEventListener('mouseleave', function() {
-        this.style.transform = this.classList.contains('team-card') 
-            ? 'translateY(0)' 
-            : 'scale(1) rotate(0)';
-    });
-});
+}
 
-// ========== ACTIVE NAVBAR LINK ========== 
-window.addEventListener('scroll', () => {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.navbar a');
-    
-    let current = '';
+function updateNavbar() {
+    const sections = document.querySelectorAll('section[id]');
+    let currentSection = '';
     sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (scrollY >= sectionTop - 200) {
-            current = section.getAttribute('id');
+        const sectionTop = section.offsetTop - 120;
+        if (window.scrollY >= sectionTop) {
+            currentSection = section.getAttribute('id');
         }
     });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === current) {
-            link.style.opacity = '0.8';
-            link.style.borderBottom = '2px solid white';
-        } else {
-            link.style.borderBottom = 'none';
-            link.style.opacity = '1';
-        }
+
+    sectionLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${currentSection}`);
     });
-});
+}
 
-// ========== MESSAGE DE BIENVENUE ========== 
-window.addEventListener('load', () => {
-    console.log('🌱 Bienvenue sur la page des Éco-Délégués !');
-    console.log('✨ Merci de visiter notre site');
-});
-
-window.addEventListener('beforeunload', () => {
-    console.log('👋 Merci de votre visite, à bientôt !');
-});
-window.addEventListener('error', (event) => {
-    console.error('❌ Une erreur est survenue :', event.message);
-});
-window.addEventListener('unhandledrejection', (event) => {
-    console.error('❌ Une promesse a été rejetée :', event.reason);
-});
-window.addEventListener('resize', () => {
-    console.log('📐 La fenêtre a été redimensionnée :', window.innerWidth, 'x', window.innerHeight);
-});
 window.addEventListener('scroll', () => {
-    console.log('📜 L\'utilisateur a fait défiler la page :', window.scrollY);
+    if (window.scrollY > 420) {
+        backToTopBtn?.classList.add('show');
+    } else {
+        backToTopBtn?.classList.remove('show');
+    }
+    updateNavbar();
 });
-window.addEventListener('click', (event) => {
-    console.log('🖱️ Clic détecté sur :', event.target);
-});
-window.addEventListener('keydown', (event) => {
-    console.log('⌨️ Touche pressée :', event.key);
-});
-window.addEventListener('keyup', (event) => {
-    console.log('⌨️ Touche relâchée :', event.key);
-});
-window.addEventListener('focus', () => {
-    console.log('👀 La fenêtre a gagné le focus');
-});
-window.addEventListener('blur', () => {
-    console.log('😴 La fenêtre a perdu le focus');
-});
+
+window.addEventListener('load', updateNavbar);
 window.addEventListener('orientationchange', () => {
     console.log('📱 L\'orientation de l\'appareil a changé :', window.orientation);
 });
