@@ -4,6 +4,7 @@
     --secondary-color: #27ae60;
     --accent-color: #8e44ad;
     --text-color: #233836;
+    --dark-color: #233836;
     --text-light: #ffffff;
     --bg-color: #f6faf7;
     --surface-color: #ffffff;
@@ -66,6 +67,14 @@ body::before {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
 }
 
 .header {
@@ -154,6 +163,18 @@ body::before {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+.nav-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    width: 48px;
+    height: 44px;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .dark-mode .theme-toggle {
@@ -307,6 +328,11 @@ body::before {
     .hero-content h2 {
         font-size: 34px;
     }
+
+    .nav-toggle { display: inline-flex; }
+    .navbar { display: none; width: 100%; }
+    .navbar.open { display: block; }
+    .navbar ul { flex-direction: column; gap: 12px; }
 
     .hero-content p {
         font-size: 16px;

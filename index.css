@@ -168,6 +168,18 @@ body::before {
     justify-content: center;
 }
 
+.nav-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    width: 48px;
+    height: 44px;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
 .dark-mode .theme-toggle {
     background: var(--surface-muted);
     color: var(--text-light);
@@ -555,6 +567,11 @@ body::before {
         flex-direction: column;
         gap: 18px;
     }
+
+    .nav-toggle { display: inline-flex; }
+    .navbar { display: none; width: 100%; }
+    .navbar.open { display: block; }
+    .navbar ul { flex-direction: column; gap: 12px; }
 
     .navbar ul {
         flex-direction: column;
