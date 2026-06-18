@@ -4,6 +4,7 @@
     --secondary-color: #27ae60;
     --accent-color: #8e44ad;
     --text-color: #233836;
+    --dark-color: #233836;
     --text-light: #ffffff;
     --bg-color: #f6faf7;
     --surface-color: #ffffff;
@@ -67,6 +68,15 @@ body::before {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
+}
+
+/* Hero layout: stack content and badges nicely on small screens */
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
 }
 
 /* ========== HEADER ========== */
@@ -241,7 +251,7 @@ body::before {
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    min-width: 150px;
+    min-width: auto;
     backdrop-filter: blur(10px);
 }
 
